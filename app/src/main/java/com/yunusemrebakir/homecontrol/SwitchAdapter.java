@@ -65,12 +65,14 @@ public class SwitchAdapter extends BaseAdapter {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
 
                 String topic = switchItemList.get(i).getmPublishTopic();
+                String valueOn = switchItemList.get(i).getmPublishValueOn();
+                String valueOff = switchItemList.get(i).getmPublishValueOff();
                 System.out.println("******************" +"Execute async task");
 
                 if (isChecked){
-                    new CustomAsyncTask().execute(topic,"1");
+                    new CustomAsyncTask().execute(topic, valueOn);
                 }else{
-                    new CustomAsyncTask().execute(topic,"0");
+                    new CustomAsyncTask().execute(topic, valueOff);
                 }
             }
         });
@@ -94,7 +96,7 @@ public class SwitchAdapter extends BaseAdapter {
         protected Double doInBackground(String... strings) {
             try {
                 String topic = strings[0];
-                String progress = strings[1];
+                String value = strings[1];
 
                 SharedPreferences settings = mContext.getSharedPreferences("settings", MODE_PRIVATE);
                 MqttClient mqttClient = new MqttClient(settings.getString("etServerAddress", ""), "mobileClient", new MemoryPersistence());
@@ -103,7 +105,7 @@ public class SwitchAdapter extends BaseAdapter {
                 //  connOptions.setKeepAliveInterval(20 * 60);
                 mqttClient.connect(connOptions);
                 MqttMessage message = new MqttMessage();
-                message.setPayload(progress.getBytes());
+                message.setPayload(value.getBytes());
                 mqttClient.publish(topic,message);
                 System.out.println("******************" +message.toString());
                 mqttClient.disconnect();
