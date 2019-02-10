@@ -11,7 +11,7 @@ public class SwitchItem {
         this.mSwitchText = mSwitchText;
         this.mSwitchState = mSwitchState;
         this.mPublishValueOn = mPublishValueOn;
-        this.mPublishValueOn = mPublishValueOff;
+        this.mPublishValueOff = mPublishValueOff;
         this.mPublishTopic = mPublishTopic;
     }
 
